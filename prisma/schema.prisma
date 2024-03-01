@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Poll {
+  id        String       @id @default(uuid())
+  title     String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  options   PollOption[]
+  vote      Vote[]
+}
+
+model PollOption {
+  id    String @id @default(uuid())
+  title String
+
+  poll   Poll   @relation(fields: [pollId], references: [id])
+  pollId String
+  vote   Vote[]
+}
+
+model Vote {
+  id           Int    @id @default(autoincrement())
+  sessionId    String
+  pollOptionId String
+  pollId       String
+
+  pollOption PollOption @relation(fields: [pollOptionId], references: [id])
+  poll       Poll       @relation(fields: [pollId], references: [id])
+
+  createdAt DateTime @default(now())
+  // Isso é uma constraint de banco de dados que garante que um usuário só pode votar uma vez em uma enquete específica (pollId) com uma sessão específica (sessionId) 
+
+  @@unique([sessionId, pollId])
+}
