@@ -17,7 +17,7 @@ Para instalar o projeto, siga estas etapas:
 
 Clone o repositório:
 ```
-git clone https://github.com/ItaloAraujodev/sistema-enquete.git
+git clone git@github.com:ItaloAraujodev/sistema-enquete.git
 ```
 Instale as dependências:
 ```
